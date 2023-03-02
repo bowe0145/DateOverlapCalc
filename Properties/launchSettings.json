@@ -2,8 +2,12 @@
   "profiles": {
     "DateOverlapCalc": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7282",
-      "launchBrowser": false
+      "commandLineArgs": "--port 7265 --verbose",
+      "environmentVariables": {
+        "OPENAI_API_KEY": "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",
+        "OPENAI_ORG": "TwmIM0HN9c6o8qorECKxKKZ3"
+      },
+      "nativeDebugging": true
     }
   }
 }

@@ -10,10 +10,5 @@
             this.role = role;
             this.content = content;
         }
-
-        public void Add(string message)
-        {
-            // Add to an array of history
-        }
     }
 }

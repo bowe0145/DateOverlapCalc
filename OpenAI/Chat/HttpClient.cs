@@ -17,24 +17,30 @@ namespace DateOverlapCalc.OpenAI.Chat
         public short total_tokens;
     }
 
-    struct OpenAIChoice
+    struct Choice
     {
-        public string text;
-        public int index;
-        public string logprobs;
+        public Message message;
         public string finish_reason;
+        public int index;
     }
 
-    class OpenAICompletionResponse
+    class Response
     {
         public string id;
         public string @object;
         public string created;
         public string model;
-        public OpenAIChoice[] choices;
         public OpenAIUsage usage;
+        public Choice[] choices;
 
-        public OpenAICompletionResponse(string id, string @object, string created, string model, OpenAIChoice[] choices, OpenAIUsage usage)
+        public Response(
+            string id,
+            string @object,
+            string created,
+            string model,
+            Choice[] choices,
+            OpenAIUsage usage
+        )
         {
             this.id = id;
             this.@object = @object;
@@ -68,12 +74,18 @@ namespace DateOverlapCalc.OpenAI.Chat
         {
             private static readonly string url = Url.Chat;
             private System.Net.Http.HttpClient client;
+
             public HttpClient(string key)
             {
                 client = new System.Net.Http.HttpClient();
 
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", key);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                    "Bearer",
+                    key
+                );
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json")
+                );
             }
 
             public new async Task<string> SendAsync(HttpRequestMessage req)
@@ -96,9 +108,10 @@ namespace DateOverlapCalc.OpenAI.Chat
 
                 string response = await SendAsync(req);
 
-                var response1 = JsonConvert.DeserializeObject<OpenAICompletionResponse>(response);
+                var response1 = JsonConvert.DeserializeObject<Response>(response);
 
-                return response1.choices[0].text;
+                // return response1.choices[0].text;
+                return "temp";
             }
         }
     }
